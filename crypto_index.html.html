@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Mauryan War Machine: Doctrine, Power & Empire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            mauryan: {
+              gold: '#d4af37',
+              goldHover: '#f3ca40',
+              crimson: '#8b0000',
+              ruby: '#b91c1c',
+              slate: '#0b0f19',
+              card: '#131926',
+              border: '#2a3447',
+              text: '#e2e8f0',
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-cinzel { fontFamily: 'Cinzel', serif; }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a3447;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d4af37;
+    }
+
+    /* Glows & Borders */
+    .gold-glow {
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+    }
+    .gold-glow-lg {
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+    }
+    .gold-border-glow {
+      border-color: #d4af37;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    
+    /* Radar background gradient */
+    .radar-grid {
+      background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, rgba(19,25,38,0.95) 70%);
+    }
+
+    /* Pulse animation */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 4s infinite ease-in-out;
+    }
+
+    /* ==========================================================================
+       VISUAL POLISH & MICRO-INTERACTIONS
+       ========================================================================== */
+
+    /* Universal tactile feedback: every clickable element gets a subtle press */
+    button, [onclick] {
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+    }
+    button:active, [onclick]:active {
+      transform: scale(0.96);
+    }
+
+    /* Accessible, visible focus ring (keyboard navigation) */
+    button:focus-visible, [onclick]:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid #d4af37;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Hero feature cards: lift on hover */
+    .group {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .group:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px -10px rgba(212, 175, 55, 0.25);
+    }
+    .group:hover span[class*="bg-mauryan-gold/20"] {
+      transform: scale(1.12) rotate(-4deg);
+    }
+    .group span[class*="bg-mauryan-gold/20"] {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Page-load entrance sequence (hero only, plays once) */
+    @keyframes fade-up-in {
+      0% { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up-seq {
+      opacity: 0;
+      animation: fade-up-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .fade-up-seq.d1 { animation-delay: 0.05s; }
+    .fade-up-seq.d2 { animation-delay: 0.18s; }
+    .fade-up-seq.d3 { animation-delay: 0.30s; }
+    .fade-up-seq.d4 { animation-delay: 0.42s; }
+    .fade-up-seq.d5 { animation-delay: 0.52s; }
+    .fade-up-seq.d6 { animation-delay: 0.60s; }
+    .fade-up-seq.d7 { animation-delay: 0.68s; }
+
+    /* Drifting embers in the hero backdrop */
+    @keyframes ember-drift {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10%  { opacity: 0.85; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-160px) translateX(var(--drift, 20px)) scale(0.4); opacity: 0; }
+    }
+    .ember {
+      position: absolute;
+      bottom: 0;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f3ca40 0%, #d4af37 60%, transparent 100%);
+      box-shadow: 0 0 6px 1px rgba(212, 175, 55, 0.6);
+      animation: ember-drift linear infinite;
+      pointer-events: none;
+    }
+
+    /* Smooth, animatable SVG map/mandala state changes */
+    #campaign-map-svg path[id^="map-territory"],
+    #mandala-svg circle,
+    #mandala-svg .animate-pulse-ring {
+      transition: opacity 0.7s ease, stroke-width 0.25s ease, filter 0.25s ease;
+    }
+    .mandala-node-active {
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    /* Modal: fade + scale instead of an abrupt cut */
+    #glossary-modal {
+      transition: opacity 0.25s ease;
+    }
+    #glossary-modal.modal-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #glossary-modal .modal-panel {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      transform: scale(0.96) translateY(8px);
+      opacity: 0;
+    }
+    #glossary-modal:not(.modal-hidden) .modal-panel {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Progress bars: soft glow while animating to new width */
+    [id^="stat-"][id$="-bar"] {
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Nicer range sliders matched to the gold theme */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #d4af37, #2a3447 0%);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #d4af37;
+      border: 2px solid #0b0f19;
+      box-shadow: 0 0 0 2px #d4af37, 0 0 10px rgba(212, 175, 55, 0.6);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin-top: -5.5px;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #d4af37;
+      border: 2px solid #0b0f19;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-moz-range-thumb:hover { transform: scale(1.2); }
+
+    /* Unit / formation content swap: quick crossfade */
+    @keyframes content-swap {
+      0% { opacity: 0.25; transform: translateY(3px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .content-swap {
+      animation: content-swap 0.35s ease-out;
+    }
+
+    /* Sim play button pulses while the simulation is running */
+    .sim-running {
+      animation: pulse-ring-btn 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse-ring-btn {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.55); }
+      50% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); }
+    }
+
+    /* Respect reduced-motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-pulse-ring, .ember, .fade-up-seq, .sim-running, .animate-ping {
+        animation: none !important;
+      }
+      .fade-up-seq { opacity: 1; transform: none; }
+      * { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-mauryan-gold selection:text-black">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-50 bg-mauryan-slate/90 backdrop-blur-md border-b border-mauryan-border/80 px-4 lg:px-8 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Brand Title -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToSection('hero')">
+        <div class="w-10 h-10 rounded-full bg-mauryan-gold/10 border border-mauryan-gold flex items-center justify-center text-mauryan-gold gold-glow">
+          <i class="fa-solid me-0 fa-chess-rook text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-serif text-lg font-bold tracking-wider text-mauryan-gold uppercase">The Mauryan War Machine</h1>
+          <p class="text-xs text-slate-400 font-sans">Doctrine, Power & Subcontinental Empire</p>
+        </div>
+      </div>
+
+      <!-- Layer Progress Navigation -->
+      <nav class="flex items-center space-x-1 sm:space-x-2 bg-mauryan-card/80 p-1.5 rounded-xl border border-mauryan-border text-xs sm:text-sm">
+        <button onclick="scrollToSection('layer1')" id="nav-layer1" class="nav-btn px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-300 bg-mauryan-gold/20 text-mauryan-gold border border-mauryan-gold/50">
+          <span class="w-5 h-5 rounded-full bg-mauryan-gold text-black font-bold flex items-center justify-center text-[10px]">1</span>
+          <span class="hidden sm:inline font-serif">Blueprint</span>
+        </button>
+        <div class="w-4 h-[1px] bg-mauryan-border"></div>
+        <button onclick="scrollToSection('layer2')" id="nav-layer2" class="nav-btn px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-300 text-slate-400 hover:text-slate-200">
+          <span class="w-5 h-5 rounded-full bg-mauryan-border text-slate-300 font-bold flex items-center justify-center text-[10px]">2</span>
+          <span class="hidden sm:inline font-serif">Execution</span>
+        </button>
+        <div class="w-4 h-[1px] bg-mauryan-border"></div>
+        <button onclick="scrollToSection('layer3')" id="nav-layer3" class="nav-btn px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-300 text-slate-400 hover:text-slate-200">
+          <span class="w-5 h-5 rounded-full bg-mauryan-border text-slate-300 font-bold flex items-center justify-center text-[10px]">3</span>
+          <span class="hidden sm:inline font-serif">Outcome</span>
+        </button>
+      </nav>
+
+      <!-- Tools & Sound Toggle -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleSound()" id="sound-btn" class="p-2 rounded-lg bg-mauryan-card border border-mauryan-border text-slate-300 hover:text-mauryan-gold hover:border-mauryan-gold transition-colors text-xs flex items-center gap-2">
+          <i class="fa-solid fa-volume-xmark text-mauryan-crimson" id="sound-icon"></i>
+          <span class="hidden lg:inline">Audio Off</span>
+        </button>
+        <button onclick="openGlossaryModal()" class="px-3 py-1.5 rounded-lg bg-mauryan-gold/10 border border-mauryan-gold/40 text-mauryan-gold hover:bg-mauryan-gold hover:text-black font-serif font-semibold text-xs transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-book-bookmark"></i>
+          <span>Primary Sources</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow">
+
+    <!-- Hero Banner -->
+    <section id="hero" class="relative py-16 px-4 lg:px-8 border-b border-mauryan-border overflow-hidden bg-gradient-to-b from-mauryan-slate via-mauryan-card to-mauryan-slate">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+      <!-- Ambient embers drifting up from a war-camp brazier -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <span class="ember" style="left:12%; --drift:14px; animation-duration:7s; animation-delay:0.2s;"></span>
+        <span class="ember" style="left:22%; --drift:-18px; animation-duration:9s; animation-delay:1.8s;"></span>
+        <span class="ember" style="left:35%; --drift:10px; animation-duration:6.5s; animation-delay:0.6s;"></span>
+        <span class="ember" style="left:48%; --drift:-12px; animation-duration:8s; animation-delay:2.6s;"></span>
+        <span class="ember" style="left:63%; --drift:16px; animation-duration:7.5s; animation-delay:1.2s;"></span>
+        <span class="ember" style="left:74%; --drift:-20px; animation-duration:9.5s; animation-delay:3.1s;"></span>
+        <span class="ember" style="left:86%; --drift:12px; animation-duration:6.8s; animation-delay:0.9s;"></span>
+        <span class="ember" style="left:93%; --drift:-8px; animation-duration:8.4s; animation-delay:2.1s;"></span>
+      </div>
+      
+      <div class="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+        <div class="fade-up-seq d1 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mauryan-gold/10 border border-mauryan-gold/30 text-mauryan-gold text-xs font-serif uppercase tracking-widest">
+          <i class="fa-solid fa-scroll"></i>
+          3-Layer Interactive Historical Simulator
+        </div>
+
+        <h1 class="fade-up-seq d2 font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-mauryan-gold to-amber-500 leading-tight">
+          The Mauryan War Machine
+        </h1>
+
+        <p class="fade-up-seq d3 text-base sm:text-lg text-slate-300 max-w-3xl mx-auto font-sans leading-relaxed">
+          How Chanakya’s statecraft blueprint combined with ancient battlefield tactics to carve out India’s first subcontinental empire.
+        </p>
+
+        <!-- 3-Layer Visual Flow Indicator -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 max-w-4xl mx-auto text-left">
+          
+          <div onclick="scrollToSection('layer1')" class="fade-up-seq d4 p-4 rounded-xl bg-mauryan-card/90 border border-mauryan-border hover:border-mauryan-gold/60 cursor-pointer transition-all duration-300 group">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-mauryan-gold/20 text-mauryan-gold flex items-center justify-center font-bold text-sm border border-mauryan-gold/40">1</span>
+              <h3 class="font-serif font-bold text-slate-100 group-hover:text-mauryan-gold transition-colors">Layer 1: The Blueprint</h3>
+            </div>
+            <p class="text-xs text-slate-400">Arthashastra doctrines, Mandala diplomacy radar, and secret espionage ciphers.</p>
+          </div>
+
+          <div onclick="scrollToSection('layer2')" class="fade-up-seq d5 p-4 rounded-xl bg-mauryan-card/90 border border-mauryan-border hover:border-mauryan-gold/60 cursor-pointer transition-all duration-300 group">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-mauryan-gold/20 text-mauryan-gold flex items-center justify-center font-bold text-sm border border-mauryan-gold/40">2</span>
+              <h3 class="font-serif font-bold text-slate-100 group-hover:text-mauryan-gold transition-colors">Layer 2: The Execution</h3>
+            </div>
+            <p class="text-xs text-slate-400">Chaturanga unit stats, armor mechanics, and 2D Vyuha battlefield simulator.</p>
+          </div>
+
+          <div onclick="scrollToSection('layer3')" class="fade-up-seq d6 p-4 rounded-xl bg-mauryan-card/90 border border-mauryan-border hover:border-mauryan-gold/60 cursor-pointer transition-all duration-300 group">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-8 h-8 rounded-lg bg-mauryan-gold/20 text-mauryan-gold flex items-center justify-center font-bold text-sm border border-mauryan-gold/40">3</span>
+              <h3 class="font-serif font-bold text-slate-100 group-hover:text-mauryan-gold transition-colors">Layer 3: The Result</h3>
+            </div>
+            <p class="text-xs text-slate-400">Campaign timeline maps (Nanda, Seleucid, Kalinga) and imperial administration.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYER 1 SECTION -->
+    <section id="layer1" class="py-16 px-4 lg:px-8 max-w-7xl mx-auto space-y-12 border-b border-mauryan-border">
+      
+      <!-- Section Header -->
+      <div class="border-l-4 border-mauryan-gold pl-4 space-y-1">
+        <div class="text-xs font-serif text-mauryan-gold uppercase tracking-widest font-semibold">Layer 1 Strategy</div>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100">The Blueprint: Kautilya's Arthashastra</h2>
+        <p class="text-sm text-slate-400 max-w-2xl">Explore Chanakya's theoretical framework for geopolitical diplomacy, foreign policy, and secret covert operations.</p>
+      </div>
+
+      <!-- Feature 1: Mandala Theory Strategic Radar & What-If Engine -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Radar Visualization Column -->
+        <div class="lg:col-span-7 bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6 relative overflow-hidden radar-grid">
+          
+          <div class="flex items-center justify-between border-b border-mauryan-border/60 pb-3">
+            <div>
+              <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+                <i class="fa-solid fa-compass"></i>
+                Mandala Theory Strategic Radar
+              </h3>
+              <p class="text-xs text-slate-400">Click neighboring states to analyze Kautilya's diplomatic classification.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-mauryan-gold/10 text-mauryan-gold text-[11px] font-mono border border-mauryan-gold/30">
+              Interactive System
+            </span>
+          </div>
+
+          <!-- Circular Interactive Mandala SVG Canvas Container -->
+          <div class="relative w-full aspect-square max-w-[450px] mx-auto flex items-center justify-center">
+            
+            <svg id="mandala-svg" viewBox="0 0 500 500" class="w-full h-full drop-shadow-lg">
+              <!-- Background Circles -->
+              <circle cx="250" cy="250" r="220" fill="none" stroke="#2a3447" stroke-width="1.5" stroke-dasharray="4,4"/>
+              <circle cx="250" cy="250" r="160" fill="none" stroke="#2a3447" stroke-width="1.5"/>
+              <circle cx="250" cy="250" r="90" fill="none" stroke="#2a3447" stroke-width="1.5" stroke-dasharray="2,2"/>
+
+              <!-- Ring Labels -->
+              <text x="250" y="40" fill="#64748b" font-size="10" text-anchor="middle" font-family="serif">Ring 3: Neutral & Buffer States</text>
+              <text x="250" y="100" fill="#64748b" font-size="10" text-anchor="middle" font-family="serif">Ring 2: Allies of Ally (Mitramitra)</text>
+              <text x="250" y="170" fill="#64748b" font-size="10" text-anchor="middle" font-family="serif">Ring 1: Immediate Enemy (Ari)</text>
+
+              <!-- Central Conqueror (Vijigishu) -->
+              <g transform="translate(250, 250)" cursor="pointer" onclick="selectMandalaNode('vijigishu')">
+                <circle r="36" fill="#1e293b" stroke="#d4af37" stroke-width="3" id="node-vijigishu" class="gold-glow"/>
+                <circle r="42" fill="none" stroke="#d4af37" stroke-width="1" class="animate-pulse-ring"/>
+                <text y="-4" fill="#d4af37" font-size="11" font-weight="bold" font-family="serif" text-anchor="middle">VIJIGISHU</text>
+                <text y="10" fill="#94a3b8" font-size="9" text-anchor="middle">Magadha</text>
+              </g>
+
+              <!-- State 1: Immediate Enemy (Ari) - North -->
+              <g transform="translate(250, 120)" cursor="pointer" onclick="selectMandalaNode('ari')">
+                <circle r="26" fill="#1e1b2e" stroke="#b91c1c" stroke-width="2.5" id="node-ari"/>
+                <text y="-2" fill="#f87171" font-size="10" font-weight="bold" font-family="serif" text-anchor="middle">ARI</text>
+                <text y="10" fill="#cbd5e1" font-size="8" text-anchor="middle">Nanda Dynasty</text>
+              </g>
+
+              <!-- State 2: Natural Ally (Mitra) - Far North -->
+              <g transform="translate(250, 48)" cursor="pointer" onclick="selectMandalaNode('mitra')">
+                <circle r="22" fill="#162e21" stroke="#22c55e" stroke-width="2" id="node-mitra"/>
+                <text y="-2" fill="#4ade80" font-size="9" font-weight="bold" font-family="serif" text-anchor="middle">MITRA</text>
+                <text y="9" fill="#cbd5e1" font-size="8" text-anchor="middle">Parvataka</text>
+              </g>
+
+              <!-- State 3: Rear Enemy (Parshnigraha) - South -->
+              <g transform="translate(250, 380)" cursor="pointer" onclick="selectMandalaNode('parshni')">
+                <circle r="24" fill="#2d1519" stroke="#ef4444" stroke-width="2" id="node-parshni"/>
+                <text y="-2" fill="#f87171" font-size="9" font-weight="bold" font-family="serif" text-anchor="middle">PARSHNI</text>
+                <text y="9" fill="#cbd5e1" font-size="8" text-anchor="middle">Kalinga</text>
+              </g>
+
+              <!-- State 4: Medium Power (Madhyama) - East -->
+              <g transform="translate(390, 250)" cursor="pointer" onclick="selectMandalaNode('madhyama')">
+                <circle r="24" fill="#2d2615" stroke="#eab308" stroke-width="2" id="node-madhyama"/>
+                <text y="-2" fill="#fde047" font-size="9" font-weight="bold" font-family="serif" text-anchor="middle">MADHYAMA</text>
+                <text y="9" fill="#cbd5e1" font-size="8" text-anchor="middle">Avanti</text>
+              </g>
+
+              <!-- State 5: Neutral Power (Udasina) - West -->
+              <g transform="translate(110, 250)" cursor="pointer" onclick="selectMandalaNode('udasina')">
+                <circle r="24" fill="#1d283a" stroke="#38bdf8" stroke-width="2" id="node-udasina"/>
+                <text y="-2" fill="#38bdf8" font-size="9" font-weight="bold" font-family="serif" text-anchor="middle">UDASINA</text>
+                <text y="9" fill="#cbd5e1" font-size="8" text-anchor="middle">Taxila/Greeks</text>
+              </g>
+            </svg>
+
+          </div>
+
+          <!-- Dynamic Node Info Banner -->
+          <div id="mandala-node-details" class="p-4 rounded-xl bg-mauryan-slate/90 border border-mauryan-border space-y-2">
+            <div class="flex items-center justify-between">
+              <span id="mandala-title" class="font-serif font-bold text-sm text-mauryan-gold">Selected Node: Vijigishu (The Conqueror)</span>
+              <span id="mandala-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">Core State</span>
+            </div>
+            <p id="mandala-desc" class="text-xs text-slate-300 leading-relaxed">
+              The ambitious king at the center of the geopolitical circle seeking subcontinental hegemony.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- What-If Strategic Slider & Shadgunya Decision Engine -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-5">
+            <div class="border-b border-mauryan-border pb-3">
+              <h3 class="font-serif font-bold text-lg text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-mauryan-gold"></i>
+                The Kautilian Decision Engine
+              </h3>
+              <p class="text-xs text-slate-400">Adjust the target enemy's attributes to see Kautilya's recommended policy (*Shadgunya*).</p>
+            </div>
+
+            <!-- Sliders -->
+            <div class="space-y-4">
+              
+              <!-- Slider 1: Enemy Military Power -->
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Enemy Military Power:</span>
+                  <span id="val-power" class="font-mono text-mauryan-gold font-bold">75 / 100</span>
+                </div>
+                <input type="range" id="slider-power" min="10" max="100" value="75" oninput="updateDecisionEngine()" class="w-full accent-mauryan-gold bg-mauryan-slate rounded-lg cursor-pointer">
+              </div>
+
+              <!-- Slider 2: Enemy Treasury Wealth -->
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Enemy Treasury & Wealth:</span>
+                  <span id="val-wealth" class="font-mono text-mauryan-gold font-bold">80 / 100</span>
+                </div>
+                <input type="range" id="slider-wealth" min="10" max="100" value="80" oninput="updateDecisionEngine()" class="w-full accent-mauryan-gold bg-mauryan-slate rounded-lg cursor-pointer">
+              </div>
+
+              <!-- Slider 3: Internal Stability -->
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Enemy Internal Revolt Risk:</span>
+                  <span id="val-revolt" class="font-mono text-mauryan-gold font-bold">30%</span>
+                </div>
+                <input type="range" id="slider-revolt" min="0" max="100" value="30" oninput="updateDecisionEngine()" class="w-full accent-mauryan-gold bg-mauryan-slate rounded-lg cursor-pointer">
+              </div>
+
+            </div>
+
+            <!-- Output: Recommended Diplomatic Strategy -->
+            <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-gold/40 space-y-3 gold-border-glow">
+              <div class="text-[10px] uppercase font-serif tracking-widest text-mauryan-gold">Recommended Kautilian Policy</div>
+              
+              <div class="flex items-center justify-between">
+                <h4 id="shadgunya-policy" class="font-serif font-bold text-xl text-amber-300">Dvaidhibhava (Dual Policy)</h4>
+                <span id="shadgunya-code" class="px-2 py-0.5 rounded bg-mauryan-gold/20 text-mauryan-gold font-mono text-xs">Mode 6</span>
+              </div>
+
+              <p id="shadgunya-desc" class="text-xs text-slate-300 leading-relaxed">
+                The enemy is militarily formidable but vulnerable internally. Make formal peace with the ruler while secretly financing insurgencies and alliances with peripheral states.
+              </p>
+
+              <!-- Tactical Action Checklist -->
+              <div class="pt-2 border-t border-mauryan-border/60 text-[11px] text-slate-400 space-y-1">
+                <div class="font-semibold text-slate-300 mb-1">Prescribed Action Plan:</div>
+                <div id="shadgunya-actions" class="space-y-1">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Feature 2: Espionage Cipher Sandbox (Mlecchita Vikalpa) -->
+      <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-mauryan-border pb-4">
+          <div>
+            <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+              <i class="fa-solid fa-user-secret"></i>
+              Espionage Cipher Sandbox (*Mlecchita Vikalpa*)
+            </h3>
+            <p class="text-xs text-slate-400">Test Chanakya's secret intelligence substitution cipher used by field agents (*Gudhapurushas*).</p>
+          </div>
+
+          <!-- Preset Message Selectors -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 hidden sm:inline">Presets:</span>
+            <button onclick="setCipherPreset('Attack Pataliputra at midnight')" class="px-2.5 py-1 rounded bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold text-slate-300 text-xs transition-colors">Dispatch 1</button>
+            <button onclick="setCipherPreset('Poison the Nanda army water supply')" class="px-2.5 py-1 rounded bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold text-slate-300 text-xs transition-colors">Dispatch 2</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Input Plaintext -->
+          <div class="space-y-2">
+            <label class="block text-xs font-serif text-slate-300 uppercase tracking-wider">Original Military Dispatch (Plaintext)</label>
+            <textarea id="cipher-input" oninput="encodeCipherMessage()" rows="4" class="w-full p-3 rounded-xl bg-mauryan-slate border border-mauryan-border text-slate-200 text-sm focus:border-mauryan-gold focus:outline-none resize-none font-sans" placeholder="Type secret command here..."></textarea>
+            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Encoding Method: Kamasutra / Kautiliyam Pairwise Substitution</span>
+              <span id="char-count">0 characters</span>
+            </div>
+          </div>
+
+          <!-- Encoded Cipher Output -->
+          <div class="space-y-2">
+            <label class="block text-xs font-serif text-mauryan-gold uppercase tracking-wider">Scrambled Spy Cipher (*Gudha-Lekhya*)</label>
+            <div id="cipher-output" class="w-full h-28 p-3 rounded-xl bg-black/60 border border-mauryan-gold/40 text-amber-400 font-mono text-sm overflow-y-auto break-all gold-glow">
+              <!-- Dynamically Encoded Text -->
+            </div>
+            
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[11px] text-slate-400">Unreadable to intercepting enemy couriers</span>
+              <button onclick="copyCipherOutput()" class="px-3 py-1 rounded bg-mauryan-gold/20 text-mauryan-gold border border-mauryan-gold/40 hover:bg-mauryan-gold hover:text-black text-xs font-semibold transition-all flex items-center gap-1.5">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copy Cipher</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- LAYER 2 SECTION -->
+    <section id="layer2" class="py-16 px-4 lg:px-8 max-w-7xl mx-auto space-y-12 border-b border-mauryan-border">
+      
+      <!-- Section Header -->
+      <div class="border-l-4 border-mauryan-gold pl-4 space-y-1">
+        <div class="text-xs font-serif text-mauryan-gold uppercase tracking-widest font-semibold">Layer 2 Execution</div>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100">The Execution: Ancient Indian Warfare</h2>
+        <p class="text-sm text-slate-400 max-w-2xl">Examine the four military arms (*Chaturanga*) and simulate tactical battle formations (*Vyuhas*) on the field.</p>
+      </div>
+
+      <!-- Feature 1: Interactive Chaturanga Unit Viewer -->
+      <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-mauryan-border pb-4">
+          <div>
+            <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved"></i>
+              Interactive *Chaturanga* Unit Inspector
+            </h3>
+            <p class="text-xs text-slate-400">Select an ancient combat division to inspect armor specs, costs, and tactical roles.</p>
+          </div>
+
+          <!-- Unit Selector Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+            <button onclick="selectUnit('elephants')" id="unit-btn-elephants" class="unit-tab px-3 py-1.5 rounded-lg border border-mauryan-gold text-mauryan-gold bg-mauryan-gold/20 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap">
+              <i class="fa-solid fa-hippo"></i>
+              <span>Gaja (Elephants)</span>
+            </button>
+            <button onclick="selectUnit('chariots')" id="unit-btn-chariots" class="unit-tab px-3 py-1.5 rounded-lg border border-mauryan-border text-slate-400 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap hover:text-slate-200">
+              <i class="fa-solid fa-caravan"></i>
+              <span>Ratha (Chariots)</span>
+            </button>
+            <button onclick="selectUnit('cavalry')" id="unit-btn-cavalry" class="unit-tab px-3 py-1.5 rounded-lg border border-mauryan-border text-slate-400 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap hover:text-slate-200">
+              <i class="fa-solid fa-horse"></i>
+              <span>Ashva (Cavalry)</span>
+            </button>
+            <button onclick="selectUnit('infantry')" id="unit-btn-infantry" class="unit-tab px-3 py-1.5 rounded-lg border border-mauryan-border text-slate-400 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap hover:text-slate-200">
+              <i class="fa-solid fa-person-rifle"></i>
+              <span>Patti (Infantry)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Unit Details Content Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Visual Unit Card Illustration / Graphic -->
+          <div class="lg:col-span-5 bg-mauryan-slate/90 rounded-xl p-6 border border-mauryan-border text-center space-y-4 relative overflow-hidden">
+            <div id="unit-icon-bg" class="w-24 h-24 mx-auto rounded-full bg-amber-500/10 border border-mauryan-gold flex items-center justify-center text-4xl text-mauryan-gold gold-glow">
+              <i class="fa-solid fa-hippo" id="unit-icon"></i>
+            </div>
+
+            <div>
+              <h4 id="unit-title" class="font-serif font-bold text-xl text-slate-100">Gaja (War Elephants)</h4>
+              <p id="unit-sanskrit" class="text-xs text-mauryan-gold italic">Ancient Heavy Armor Division</p>
+            </div>
+
+            <p id="unit-summary" class="text-xs text-slate-300 leading-relaxed">
+              The supreme line-breakers of ancient Indian armies. Used to trample infantry, crush fort gates, and instill sheer terror in enemy ranks.
+            </p>
+
+            <div class="grid grid-cols-2 gap-2 text-left pt-2 border-t border-mauryan-border/60 text-xs">
+              <div class="p-2 rounded bg-mauryan-card">
+                <span class="text-slate-400 text-[10px] block">Primary Weapon</span>
+                <span id="unit-weapon" class="font-semibold text-slate-200">Iron tusk spikes & archers</span>
+              </div>
+              <div class="p-2 rounded bg-mauryan-card">
+                <span class="text-slate-400 text-[10px] block">Maintenance Cost</span>
+                <span id="unit-cost" class="font-semibold text-amber-400">High (State Studs)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unit Stats & Tactical Matrix -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Progress Bar Stats -->
+            <div class="space-y-3">
+              <h5 class="font-serif font-bold text-sm text-slate-200 border-b border-mauryan-border/60 pb-1">Combat Attributes</h5>
+
+              <!-- Stat 1: Shock Power -->
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Shock & Line-Breaking Power</span>
+                  <span id="stat-shock-val" class="font-mono text-mauryan-gold font-bold">95%</span>
+                </div>
+                <div class="w-full bg-mauryan-slate h-2 rounded-full overflow-hidden">
+                  <div id="stat-shock-bar" class="bg-mauryan-gold h-full rounded-full transition-all duration-500" style="width: 95%"></div>
+                </div>
+              </div>
+
+              <!-- Stat 2: Armor & Resilience -->
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Armor & Defense</span>
+                  <span id="stat-armor-val" class="font-mono text-mauryan-gold font-bold">90%</span>
+                </div>
+                <div class="w-full bg-mauryan-slate h-2 rounded-full overflow-hidden">
+                  <div id="stat-armor-bar" class="bg-mauryan-gold h-full rounded-full transition-all duration-500" style="width: 90%"></div>
+                </div>
+              </div>
+
+              <!-- Stat 3: Mobility -->
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Mobility & Speed</span>
+                  <span id="stat-speed-val" class="font-mono text-mauryan-gold font-bold">35%</span>
+                </div>
+                <div class="w-full bg-mauryan-slate h-2 rounded-full overflow-hidden">
+                  <div id="stat-speed-bar" class="bg-mauryan-gold h-full rounded-full transition-all duration-500" style="width: 35%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Advantages & Weaknesses -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              
+              <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-1">
+                <span class="font-serif font-bold text-emerald-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-check"></i> Tactical Advantages
+                </span>
+                <p id="unit-pros" class="text-slate-300">Terrifies cavalry horses; dismantles fortified walls and gates; provides high platform for archers.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-1">
+                <span class="font-serif font-bold text-rose-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Tactical Vulnerabilities
+                </span>
+                <p id="unit-cons" class="text-slate-300">Vulnerable to flaming arrows and blinded by agile skirmishers; risk of panicking and trampling friendly troops.</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Feature 2: 2D Canvas Battlefield Formation Simulator (Vyuha Mechanics) -->
+      <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6">
+        
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-mauryan-border pb-4">
+          <div>
+            <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+              <i class="fa-solid fa-chess-board"></i>
+              Battlefield Formation Simulator (*Vyuha Tactics*)
+            </h3>
+            <p class="text-xs text-slate-400">Animate ancient tactical formations and observe real-time troop dynamics.</p>
+          </div>
+
+          <!-- Controls & Formation Selectors -->
+          <div class="flex flex-wrap items-center gap-3">
+            
+            <div class="flex items-center gap-1 bg-mauryan-slate p-1 rounded-lg border border-mauryan-border">
+              <button onclick="setVyuha('chakravyuha')" id="vyuha-btn-chakravyuha" class="vyuha-btn px-2.5 py-1 rounded text-xs font-serif bg-mauryan-gold text-black font-semibold">Chakravyuha</button>
+              <button onclick="setVyuha('garudavyuha')" id="vyuha-btn-garudavyuha" class="vyuha-btn px-2.5 py-1 rounded text-xs font-serif text-slate-300 hover:text-white">Garudavyuha</button>
+              <button onclick="setVyuha('padmavyuha')" id="vyuha-btn-padmavyuha" class="vyuha-btn px-2.5 py-1 rounded text-xs font-serif text-slate-300 hover:text-white">Padmavyuha</button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="toggleVyuhaSim()" id="sim-play-btn" class="px-3 py-1.5 rounded-lg bg-mauryan-gold text-black font-semibold text-xs transition-all flex items-center gap-1.5 gold-glow">
+                <i class="fa-solid fa-play" id="sim-play-icon"></i>
+                <span id="sim-play-text">Play Simulation</span>
+              </button>
+              <button onclick="resetVyuhaSim()" class="p-1.5 rounded-lg bg-mauryan-slate border border-mauryan-border text-slate-300 hover:text-mauryan-gold text-xs">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Canvas & Tactical Log -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- 2D Canvas Container -->
+          <div class="lg:col-span-8 bg-black/80 rounded-xl border border-mauryan-border overflow-hidden relative aspect-video flex items-center justify-center">
+            <canvas id="vyuha-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+            
+            <!-- Floating Canvas Overlay Badge -->
+            <div class="absolute top-3 left-3 bg-mauryan-slate/80 backdrop-blur px-2.5 py-1 rounded text-[11px] font-mono text-mauryan-gold border border-mauryan-border">
+              Current Vyuha: <span id="canvas-vyuha-name" class="text-white font-bold">Chakravyuha (Wheel)</span>
+            </div>
+          </div>
+
+          <!-- Tactical Commentary Sidebar -->
+          <div class="lg:col-span-4 space-y-4">
+            
+            <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-border space-y-3">
+              <h4 id="vyuha-info-title" class="font-serif font-bold text-sm text-mauryan-gold">Chakravyuha (Rotating Concentric Wheel)</h4>
+              <p id="vyuha-info-desc" class="text-xs text-slate-300 leading-relaxed">
+                A multi-tiered, spinning circular formation designed to swallow advancing forces into inner concentric rings while constantly rotating archers and spear units.
+              </p>
+              
+              <div class="text-[11px] text-slate-400 space-y-1 pt-2 border-t border-mauryan-border/60">
+                <div><strong class="text-slate-200">Primary Objective:</strong> Trap & isolate enemy commanders.</div>
+                <div><strong class="text-slate-200">Counter-Tactic:</strong> Simultaneous destruction of inner & outer ring pivots.</div>
+              </div>
+            </div>
+
+            <!-- Live Simulation Event Log -->
+            <div class="p-3 rounded-xl bg-black/60 border border-mauryan-border space-y-2">
+              <div class="text-[10px] font-serif uppercase text-mauryan-gold tracking-widest flex items-center justify-between">
+                <span>Tactical Event Log</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              </div>
+              <div id="sim-log" class="h-28 font-mono text-[11px] text-slate-400 overflow-y-auto space-y-1">
+                <div>[00:00] Vyuha formation deployed on grid.</div>
+                <div>[00:01] Concentric ring rotations initialized.</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- LAYER 3 SECTION -->
+    <section id="layer3" class="py-16 px-4 lg:px-8 max-w-7xl mx-auto space-y-12">
+      
+      <!-- Section Header -->
+      <div class="border-l-4 border-mauryan-gold pl-4 space-y-1">
+        <div class="text-xs font-serif text-mauryan-gold uppercase tracking-widest font-semibold">Layer 3 Outcome</div>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100">The Result: The Imperial Mauryan State</h2>
+        <p class="text-sm text-slate-400 max-w-2xl">Witness the historical culmination of Chanakya's doctrine and military execution across campaigns and administration.</p>
+      </div>
+
+      <!-- Feature 1: Interactive Campaign Timeline Map -->
+      <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-mauryan-border pb-4">
+          <div>
+            <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+              <i class="fa-solid fa-map-location-dot"></i>
+              Interactive Campaign Timeline Map
+            </h3>
+            <p class="text-xs text-slate-400">Drag the timeline slider to track imperial expansion from 322 BCE to 261 BCE.</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span id="timeline-year-badge" class="px-3 py-1 rounded-full bg-mauryan-gold text-black font-serif font-bold text-xs gold-glow">
+              322 BCE: Nanda Campaign
+            </span>
+          </div>
+        </div>
+
+        <!-- Timeline Slider Control -->
+        <div class="space-y-2 px-2">
+          <input type="range" id="campaign-slider" min="1" max="3" value="1" step="1" oninput="updateCampaignMap()" class="w-full accent-mauryan-gold bg-mauryan-slate cursor-pointer">
+          <div class="flex justify-between text-xs font-serif text-slate-400 pt-1">
+            <span class="cursor-pointer hover:text-mauryan-gold" onclick="setCampaignStep(1)">322 BCE (Nanda Conquest)</span>
+            <span class="cursor-pointer hover:text-mauryan-gold" onclick="setCampaignStep(2)">305 BCE (Seleucid Standoff)</span>
+            <span class="cursor-pointer hover:text-mauryan-gold" onclick="setCampaignStep(3)">261 BCE (Kalinga & Ashoka)</span>
+          </div>
+        </div>
+
+        <!-- Interactive Map SVG & Details Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Map Canvas / SVG -->
+          <div class="lg:col-span-7 bg-mauryan-slate/90 rounded-xl p-4 border border-mauryan-border relative aspect-[4/3] flex items-center justify-center overflow-hidden">
+            
+            <svg id="campaign-map-svg" viewBox="0 0 600 450" class="w-full h-full">
+              <!-- Subcontinent Outline Visual representation -->
+              <path d="M 120 80 Q 250 50 400 80 Q 480 180 400 280 Q 320 380 280 430 Q 220 380 180 280 Q 80 180 120 80 Z" fill="#131926" stroke="#2a3447" stroke-width="2"/>
+              
+              <!-- Rivers (Indus & Ganges) -->
+              <path d="M 180 90 Q 150 140 180 200" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-dasharray="3,3"/>
+              <path d="M 220 120 Q 320 130 420 160" fill="none" stroke="#1e3a8a" stroke-width="2.5"/>
+
+              <!-- Imperial Cities Nodes -->
+              <!-- Pataliputra -->
+              <g transform="translate(360, 145)">
+                <circle r="8" fill="#d4af37" class="animate-ping opacity-75"/>
+                <circle r="6" fill="#d4af37" stroke="#000" stroke-width="1.5"/>
+                <text x="12" y="4" fill="#fef08a" font-size="10" font-weight="bold" font-family="serif">Pataliputra</text>
+              </g>
+
+              <!-- Taxila -->
+              <g transform="translate(170, 100)">
+                <circle r="5" fill="#e2e8f0" stroke="#000" stroke-width="1"/>
+                <text x="-10" y="-8" fill="#cbd5e1" font-size="9" font-family="serif">Taxila</text>
+              </g>
+
+              <!-- Ujjain -->
+              <g transform="translate(250, 210)">
+                <circle r="5" fill="#e2e8f0" stroke="#000" stroke-width="1"/>
+                <text x="10" y="4" fill="#cbd5e1" font-size="9" font-family="serif">Ujjain</text>
+              </g>
+
+              <!-- Kalinga -->
+              <g transform="translate(370, 250)">
+                <circle r="5" fill="#ef4444" id="map-node-kalinga" stroke="#000" stroke-width="1"/>
+                <text x="10" y="4" fill="#f87171" font-size="9" font-family="serif">Kalinga</text>
+              </g>
+
+              <!-- Dynamic Campaign Territory Overlays -->
+              <!-- Phase 1: Magadha Core (322 BCE) -->
+              <path id="map-territory-p1" d="M 310 120 Q 400 120 410 180 Q 340 190 310 140 Z" fill="rgba(212, 175, 55, 0.4)" stroke="#d4af37" stroke-width="1.5"/>
+              
+              <!-- Phase 2: Northwest & Indus Expansion (305 BCE) -->
+              <path id="map-territory-p2" d="M 140 80 Q 300 80 430 140 Q 320 250 200 230 Z" fill="rgba(212, 175, 55, 0.25)" stroke="#d4af37" stroke-width="1.5" opacity="0"/>
+
+              <!-- Phase 3: Pan-Indian Imperial Expansion (261 BCE) -->
+              <path id="map-territory-p3" d="M 130 70 Q 450 70 420 330 Q 280 410 160 260 Z" fill="rgba(34, 197, 94, 0.2)" stroke="#22c55e" stroke-width="1.5" opacity="0"/>
+
+              <!-- Campaign Movement Vectors (Arrows) -->
+              <path id="map-arrow-1" d="M 280 180 L 340 150" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+            </svg>
+
+          </div>
+
+          <!-- Campaign Stage Description Card -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <div class="p-5 rounded-xl bg-mauryan-slate border border-mauryan-border space-y-3">
+              <div class="flex items-center justify-between">
+                <span id="campaign-title" class="font-serif font-bold text-base text-mauryan-gold">Phase 1: The Nanda Campaign (322 BCE)</span>
+                <span id="campaign-tag" class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300">Outside-In Strategy</span>
+              </div>
+
+              <p id="campaign-desc" class="text-xs text-slate-300 leading-relaxed">
+                Chandragupta & Chanakya executed Kautilya's "outside-in" doctrine—securing peripheral alliances in the Northwest first to cut off Magadha's revenue before laying siege to Pataliputra.
+              </p>
+
+              <!-- Historical Milestone Details -->
+              <div class="space-y-2 pt-2 border-t border-mauryan-border/60 text-xs">
+                <div class="flex justify-between text-slate-300">
+                  <span class="text-slate-400">Key Military Counter:</span>
+                  <span id="campaign-stat1" class="font-semibold text-mauryan-gold">Infiltration & Frontier Alliances</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span class="text-slate-400">Strategic Result:</span>
+                  <span id="campaign-stat2" class="font-semibold text-slate-200">Overthrow of Dhana Nanda</span>
+                </div>
+              </div>
+
+              <!-- Primary Source Quote Box -->
+              <div class="p-3 rounded-lg bg-black/50 border border-mauryan-gold/30 text-xs italic text-amber-200/90 font-serif space-y-1">
+                <p id="campaign-quote">"Just as a child burns its finger by eating from the center of a hot cake, a strategist must secure the borders before seizing the heart."</p>
+                <div id="campaign-quote-src" class="text-[10px] text-slate-400 not-italic text-right font-sans">— Buddhist & Jain Historical Commentaries</div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Feature 2: Chanakya's Administrative Grid -->
+      <div class="bg-mauryan-card rounded-2xl p-6 border border-mauryan-border space-y-6">
+        
+        <div class="border-b border-mauryan-border pb-3">
+          <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+            <i class="fa-solid fa-sitemap"></i>
+            Chanakya's Administrative Grid (30 *Adhyakshas*)
+          </h3>
+          <p class="text-xs text-slate-400">How statecraft transformed post-war territories into a centralized bureaucratic superpower.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          
+          <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold/50 transition-all space-y-2">
+            <div class="w-8 h-8 rounded bg-amber-500/10 text-mauryan-gold flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <h4 class="font-serif font-bold text-slate-200 text-sm">Samaharta (Tax Director)</h4>
+            <p class="text-slate-400">Managed land revenue, urban tolls, mine royalties, and trade taxes to fund the standing imperial army.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold/50 transition-all space-y-2">
+            <div class="w-8 h-8 rounded bg-amber-500/10 text-mauryan-gold flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-shield"></i>
+            </div>
+            <h4 class="font-serif font-bold text-slate-200 text-sm">Navadhyaksha (Naval Board)</h4>
+            <p class="text-slate-400">Supervised riverine patrol fleets, coastal trade security, ferry customs, and waterborne troop transports.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold/50 transition-all space-y-2">
+            <div class="w-8 h-8 rounded bg-amber-500/10 text-mauryan-gold flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-eye"></i>
+            </div>
+            <h4 class="font-serif font-bold text-slate-200 text-sm">Gudhapurusha Overseer</h4>
+            <p class="text-slate-400">Maintained silent intelligence networks, anti-corruption monitoring of state officers, and counter-espionage.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-mauryan-slate border border-mauryan-border hover:border-mauryan-gold/50 transition-all space-y-2">
+            <div class="w-8 h-8 rounded bg-amber-500/10 text-mauryan-gold flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-road"></i>
+            </div>
+            <h4 class="font-serif font-bold text-slate-200 text-sm">Rajamarga Maintenance</h4>
+            <p class="text-slate-400">Built the Royal Highway connecting Taxila to Pataliputra, featuring rest houses, milestone markers, and garrisons.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Primary Sources Glossary Modal -->
+  <div id="glossary-modal" class="modal-hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="modal-panel bg-mauryan-card border border-mauryan-gold max-w-2xl w-full rounded-2xl p-6 space-y-5 shadow-2xl relative max-h-[85vh] flex flex-col gold-glow">
+      
+      <div class="flex items-center justify-between border-b border-mauryan-border pb-3">
+        <h3 class="font-serif font-bold text-lg text-mauryan-gold flex items-center gap-2">
+          <i class="fa-solid fa-book"></i>
+          Primary Source Texts & Glossary
+        </h3>
+        <button onclick="closeGlossaryModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto space-y-4 pr-1 text-xs">
+        
+        <div class="p-3 rounded-lg bg-mauryan-slate border border-mauryan-border space-y-1">
+          <span class="font-serif font-bold text-mauryan-gold text-sm block">Arthashastra (Book 10, Chapter 3)</span>
+          <p class="text-slate-300 italic">"An arrow shot by an archer may or may not kill a single person; but intrigue devised by a wise statesman can destroy even infants in the womb."</p>
+        </div>
+
+        <div class="p-3 rounded-lg bg-mauryan-slate border border-mauryan-border space-y-1">
+          <span class="font-serif font-bold text-mauryan-gold text-sm block">Major Rock Edict XIII (Emperor Ashoka)</span>
+          <p class="text-slate-300 italic">"One hundred and fifty thousand were deportations, one hundred thousand were slain, and many times that number died in the Kalinga war... Now the Beloved of the Gods considers moral conquest (Dhammavijaya) to be the true conquest."</p>
+        </div>
+
+        <div class="p-3 rounded-lg bg-mauryan-slate border border-mauryan-border space-y-1">
+          <span class="font-serif font-bold text-slate-200 text-sm block">Key Sanskrit Terms</span>
+          <ul class="space-y-1 text-slate-400 pt-1">
+            <li><strong class="text-mauryan-gold">Vijigishu:</strong> The central monarch desiring world or subcontinental conquest.</li>
+            <li><strong class="text-mauryan-gold">Kuta-Yuddha:</strong> Deceptive or asymmetric warfare using ambushes, poison, and night raids.</li>
+            <li><strong class="text-mauryan-gold">Mlecchita Vikalpa:</strong> The ancient art of cipher writing and secret communication.</li>
+            <li><strong class="text-mauryan-gold">Chaturanga:</strong> The classic four-fold military organization (Infantry, Cavalry, Chariots, Elephants).</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-2 border-t border-mauryan-border text-right">
+        <button onclick="closeGlossaryModal()" class="px-4 py-1.5 rounded-lg bg-mauryan-gold text-black font-semibold text-xs">Close Glossary</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-mauryan-slate border-t border-mauryan-border py-8 px-4 text-center text-xs text-slate-400 space-y-2">
+    <p class="font-serif text-mauryan-gold font-bold">The Mauryan War Machine: An Academic Interactive Study</p>
+    <p>Synthesizing Kautilya's Arthashastra, Ancient Military Tactics, and Mauryan History.</p>
+  </footer>
+
+  <script>
+    /* ==========================================================================
+       1. WEB AUDIO API SOUND ENGINE
+       ========================================================================== */
+    let soundEnabled = false;
+    let audioCtx = null;
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const soundBtn = document.getElementById('sound-btn');
+      const soundIcon = document.getElementById('sound-icon');
+      
+      if (soundEnabled) {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        soundIcon.className = "fa-solid fa-volume-high text-mauryan-gold";
+        soundBtn.querySelector('span').innerText = "Audio On";
+        playTone(523.25, 'sine', 0.1, 0.1); // C5 confirmation tone
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-mauryan-crimson";
+        soundBtn.querySelector('span').innerText = "Audio Off";
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15, vol = 0.05) {
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    /* ==========================================================================
+       2. SCROLL & NAVIGATION LOGIC
+       ========================================================================== */
+    function scrollToSection(id) {
+      playTone(440, 'sine', 0.1, 0.03);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // ScrollSpy for Header Tabs
+    window.addEventListener('scroll', () => {
+      const sections = ['layer1', 'layer2', 'layer3'];
+      const scrollPos = window.scrollY + 200;
+
+      sections.forEach(sec => {
+        const el = document.getElementById(sec);
+        const navBtn = document.getElementById(`nav-${sec}`);
+        if (el && navBtn) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            navBtn.className = "nav-btn px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-300 bg-mauryan-gold/20 text-mauryan-gold border border-mauryan-gold/50";
+          } else {
+            navBtn.className = "nav-btn px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all duration-300 text-slate-400 hover:text-slate-200";
+          }
+        }
+      });
+    });
+
+    /* ==========================================================================
+       3. LAYER 1: MANDALA THEORY & DECISION ENGINE
+       ========================================================================== */
+    const mandalaData = {
+      vijigishu: {
+        title: "Selected Node: Vijigishu (The Conqueror)",
+        badge: "Core State",
+        desc: "The ambitious sovereign at the center of the geopolitical circle (Magadha), seeking to establish subcontinental hegemony through strategic alliances and military force."
+      },
+      ari: {
+        title: "Selected Node: Ari (Immediate Enemy)",
+        badge: "Ring 1 Frontline Enemy",
+        desc: "Directly adjacent state (Nanda Empire). Inherently competitive for land and resources; Kautilya mandates containing or overthrowing this state first."
+      },
+      mitra: {
+        title: "Selected Node: Mitra (Natural Ally)",
+        badge: "Ring 2 Natural Ally",
+        desc: "State located beyond the enemy (e.g., King Parvataka of the Himalayas). Naturally shares a rival in Ari, making them an ideal coalition partner."
+      },
+      parshni: {
+        title: "Selected Node: Parshnigraha (Rear Enemy)",
+        badge: "Rear Threat",
+        desc: "A hostile state located behind your borders (e.g., Kalinga). Must be neutralized or held with non-aggression pacts before launching forward campaigns."
+      },
+      madhyama: {
+        title: "Selected Node: Madhyama (Medium Power)",
+        badge: "Buffer State",
+        desc: "A powerful intermediate state capable of aiding both Vijigishu and Ari. Demands delicate diplomatic balance or bribery."
+      },
+      udasina: {
+        title: "Selected Node: Udasina (Neutral/Distant Power)",
+        badge: "Distant Neutral",
+        desc: "A strong neutral state located outside the immediate circle (e.g., Hellenistic kingdoms/Taxila). Best engaged through trade and diplomatic missions."
+      }
+    };
+
+    const mandalaNodeIds = ['node-vijigishu', 'node-ari', 'node-mitra', 'node-parshni', 'node-madhyama', 'node-udasina'];
+
+    function selectMandalaNode(key) {
+      playTone(587.33, 'triangle', 0.12, 0.05);
+      const data = mandalaData[key];
+      if (data) {
+        const banner = document.getElementById('mandala-node-details');
+        document.getElementById('mandala-title').innerText = data.title;
+        document.getElementById('mandala-badge').innerText = data.badge;
+        document.getElementById('mandala-desc').innerText = data.desc;
+
+        // Ripple the info banner so the update reads as a response, not a jump-cut
+        banner.classList.remove('content-swap');
+        void banner.offsetWidth; // restart animation
+        banner.classList.add('content-swap');
+
+        // Highlight the selected node on the radar, reset the rest
+        mandalaNodeIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.classList.remove('mandala-node-active');
+          el.setAttribute('stroke-width', el.id === 'node-vijigishu' ? '3' : '2');
+        });
+        const activeEl = document.getElementById(`node-${key}`);
+        if (activeEl) {
+          activeEl.classList.add('mandala-node-active');
+          activeEl.setAttribute('stroke-width', activeEl.id === 'node-vijigishu' ? '4.5' : '3.5');
+        }
+      }
+    }
+
+    function updateDecisionEngine() {
+      playTone(300, 'sine', 0.05, 0.02);
+      const power = parseInt(document.getElementById('slider-power').value);
+      const wealth = parseInt(document.getElementById('slider-wealth').value);
+      const revolt = parseInt(document.getElementById('slider-revolt').value);
+
+      document.getElementById('val-power').innerText = `${power} / 100`;
+      document.getElementById('val-wealth').innerText = `${wealth} / 100`;
+      document.getElementById('val-revolt').innerText = `${revolt}%`;
+
+      const policyEl = document.getElementById('shadgunya-policy');
+      const codeEl = document.getElementById('shadgunya-code');
+      const descEl = document.getElementById('shadgunya-desc');
+      const actionsEl = document.getElementById('shadgunya-actions');
+
+      if (revolt > 50) {
+        policyEl.innerText = "Kuta-Yuddha & Tushni-Yuddha (Covert Subversion)";
+        codeEl.innerText = "Mode: Internal Collapse";
+        descEl.innerText = "The enemy suffers high internal instability. Avoid costly open war; deploy spies, bribe local ministers, and trigger revolts.";
+        actionsEl.innerHTML = `
+          <div>• Bribe garrison commanders to surrender border posts.</div>
+          <div>• Spread rumors of divine ill-omens to demoralize troops.</div>
+        `;
+      } else if (power > 70 && wealth > 70) {
+        policyEl.innerText = "Dvaidhibhava & Samsraya (Dual Strategy / Alliances)";
+        codeEl.innerText = "Mode: Asymmetric Defense";
+        descEl.innerText = "The enemy is superior in both wealth and military. Maintain public peace treaties while forming secret alliances with their neighbors.";
+        actionsEl.innerHTML = `
+          <div>• Pay formal tributes to delay open conflict.</div>
+          <div>• Build secret defensive fortifications and stockpiles.</div>
+        `;
+      } else if (power < 40) {
+        policyEl.innerText = "Vigraha & Yana (Open Offensive March)";
+        codeEl.innerText = "Mode: Direct Conquest";
+        descEl.innerText = "The enemy military is severely weakened. Launch an immediate marching campaign (*Yana*) to annex border territories.";
+        actionsEl.innerHTML = `
+          <div>• Deploy elephant shock lines to break vanguard troops.</div>
+          <div>• Establish siege perimeters around fortified towns.</div>
+        `;
+      } else {
+        policyEl.innerText = "Sandhi & Asana (Diplomatic Neutrality)";
+        codeEl.innerText = "Mode: Equilibrium";
+        descEl.innerText = "Power is evenly matched. Maintain non-aggression pacts (*Sandhi*) while building up internal agriculture and trade.";
+        actionsEl.innerHTML = `
+          <div>• Focus on internal taxation and weapon manufacturing.</div>
+          <div>• Conduct intelligence mapping of enemy terrain.</div>
+        `;
+      }
+    }
+
+    /* ==========================================================================
+       4. ESPIONAGE CIPHER SANDBOX (Mlecchita Vikalpa)
+       ========================================================================== */
+    function encodeCipherMessage() {
+      playTone(700, 'square', 0.03, 0.01);
+      const input = document.getElementById('cipher-input').value;
+      document.getElementById('char-count').innerText = `${input.length} characters`;
+
+      // Substitution mapping (Ancient Kamasutra / Pairwise Cipher Simulation)
+      const map = {
+        'a':'k', 'b':'l', 'c':'m', 'd':'n', 'e':'o', 'f':'p', 'g':'q', 'h':'r',
+        'i':'s', 'j':'t', 'k':'a', 'l':'b', 'm':'c', 'n':'d', 'o':'e', 'p':'f',
+        'q':'g', 'r':'h', 's':'i', 't':'j', 'u':'v', 'v':'u', 'w':'x', 'x':'w',
+        'y':'z', 'z':'y',
+        'A':'K', 'B':'L', 'C':'M', 'D':'N', 'E':'O', 'F':'P', 'G':'Q', 'H':'R',
+        'I':'S', 'J':'T', 'K':'A', 'L':'B', 'M':'C', 'N':'D', 'O':'E', 'P':'F',
+        'Q':'G', 'R':'H', 'S':'I', 'T':'J', 'U':'V', 'V':'U', 'W':'X', 'X':'W',
+        'Y':'Z', 'Z':'Y'
+      };
+
+      let output = '';
+      for (let i = 0; i < input.length; i++) {
+        const char = input[i];
+        output += map[char] || char;
+      }
+
+      document.getElementById('cipher-output').innerText = output || 'Cipher output will appear here live...';
+    }
+
+    function setCipherPreset(text) {
+      document.getElementById('cipher-input').value = text;
+      encodeCipherMessage();
+    }
+
+    function copyCipherOutput() {
+      const text = document.getElementById('cipher-output').innerText;
+      if (text) {
+        document.execCommand('copy');
+        playTone(880, 'sine', 0.1, 0.05);
+        alert("Cipher copied to clipboard!");
+      }
+    }
+
+    /* ==========================================================================
+       5. LAYER 2: CHATURANGA UNIT INSPECTOR
+       ========================================================================== */
+    const unitData = {
+      elephants: {
+        title: "Gaja (War Elephants)",
+        sanskrit: "Heavy Line-Breakers & Terror Weapon",
+        icon: "fa-hippo",
+        summary: "The supreme shock force of ancient Indian armies. Used to shatter enemy formations, trample infantry, and crush wooden fort gates.",
+        weapon: "Iron tusk blades & archer tower",
+        cost: "State Studs & High Grain Allowance",
+        shock: 95, armor: 90, speed: 35,
+        pros: "Terrifies cavalry horses; dismantles fortified gates; provides high platform for archers.",
+        cons: "Vulnerable to fire and blinded by agile skirmishers; risk of panicking and trampling friendly troops."
+      },
+      chariots: {
+        title: "Ratha (War Chariots)",
+        sanskrit: "Mobile Archer & Command Platform",
+        icon: "fa-caravan",
+        summary: "High-status mobile platforms preferred by nobility and elite archers during the Vedic and early Mauryan periods.",
+        weapon: "Composite bows, lances & javelins",
+        cost: "High (Carpentry & Horse Studs)",
+        shock: 75, armor: 70, speed: 60,
+        pros: "High mobility on open plains; superior archer stability; mobile command center.",
+        cons: "Useless in muddy, rocky, or forested terrain; easily trapped by ditches."
+      },
+      cavalry: {
+        title: "Ashva (Light/Medium Cavalry)",
+        sanskrit: "Reconnaissance & Pursuit Force",
+        icon: "fa-horse",
+        summary: "Used for fast scouting, guarding flanks, pursuing retreating enemies, and cutting off enemy supply lines.",
+        weapon: "Lances, curved daggers & light javelins",
+        cost: "Moderate (Imported NW Horses)",
+        shock: 60, armor: 50, speed: 90,
+        pros: "Exceptional speed and strategic maneuverability; ideal for surprise flank ambushes.",
+        cons: "Struggled against disciplined infantry spearmen and terrified by war elephants."
+      },
+      infantry: {
+        title: "Patti (Foot Soldiers & Archers)",
+        sanskrit: "Core Backbone Division",
+        icon: "fa-person-rifle",
+        summary: "Massed foot archers wielding 6-foot bamboo composite bows paired with broadsword-bearing melee infantry.",
+        weapon: "6-ft Bamboo Bows & Broadswords (Khanda)",
+        cost: "Low (Mass Conscription)",
+        shock: 50, armor: 40, speed: 50,
+        pros: "Versatile across all terrains; high-velocity armor-piercing arrows; easy to replace.",
+        cons: "Highly vulnerable to heavy elephant charges without defensive stakes."
+      }
+    };
+
+    function selectUnit(key) {
+      playTone(500, 'sine', 0.1, 0.04);
+      const data = unitData[key];
+      if (!data) return;
+
+      // Update button styles
+      document.querySelectorAll('.unit-tab').forEach(btn => {
+        btn.className = "unit-tab px-3 py-1.5 rounded-lg border border-mauryan-border text-slate-400 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap hover:text-slate-200";
+      });
+      document.getElementById(`unit-btn-${key}`).className = "unit-tab px-3 py-1.5 rounded-lg border border-mauryan-gold text-mauryan-gold bg-mauryan-gold/20 text-xs font-serif flex items-center gap-1.5 whitespace-nowrap";
+
+      // Update content (with a quick crossfade so the swap reads as intentional)
+      const unitPanel = document.getElementById('unit-icon-bg').closest('.grid');
+      if (unitPanel) {
+        unitPanel.classList.remove('content-swap');
+        void unitPanel.offsetWidth;
+        unitPanel.classList.add('content-swap');
+      }
+      document.getElementById('unit-icon').className = `fa-solid ${data.icon}`;
+      document.getElementById('unit-title').innerText = data.title;
+      document.getElementById('unit-sanskrit').innerText = data.sanskrit;
+      document.getElementById('unit-summary').innerText = data.summary;
+      document.getElementById('unit-weapon').innerText = data.weapon;
+      document.getElementById('unit-cost').innerText = data.cost;
+
+      document.getElementById('stat-shock-val').innerText = `${data.shock}%`;
+      document.getElementById('stat-shock-bar').style.width = `${data.shock}%`;
+
+      document.getElementById('stat-armor-val').innerText = `${data.armor}%`;
+      document.getElementById('stat-armor-bar').style.width = `${data.armor}%`;
+
+      document.getElementById('stat-speed-val').innerText = `${data.speed}%`;
+      document.getElementById('stat-speed-bar').style.width = `${data.speed}%`;
+
+      document.getElementById('unit-pros').innerText = data.pros;
+      document.getElementById('unit-cons').innerText = data.cons;
+    }
+
+    /* ==========================================================================
+       6. 2D CANVAS VYUHA FORMATION SIMULATOR
+       ========================================================================== */
+    let canvas, ctx;
+    let vyuhaSimRunning = false;
+    let currentVyuha = 'chakravyuha';
+    let animFrameId = null;
+    let simAngle = 0;
+
+    function initVyuhaCanvas() {
+      canvas = document.getElementById('vyuha-canvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+      
+      // Handle canvas resolution
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      renderVyuhaFrame();
+    }
+
+    function setVyuha(type) {
+      playTone(600, 'triangle', 0.1, 0.04);
+      currentVyuha = type;
+      simAngle = 0;
+
+      // Update button styles
+      document.querySelectorAll('.vyuha-btn').forEach(btn => {
+        btn.className = "vyuha-btn px-2.5 py-1 rounded text-xs font-serif text-slate-300 hover:text-white";
+      });
+      document.getElementById(`vyuha-btn-${type}`).className = "vyuha-btn px-2.5 py-1 rounded text-xs font-serif bg-mauryan-gold text-black font-semibold";
+
+      const nameEl = document.getElementById('canvas-vyuha-name');
+      const titleEl = document.getElementById('vyuha-info-title');
+      const descEl = document.getElementById('vyuha-info-desc');
+      const infoCard = titleEl.closest('div');
+      infoCard.classList.remove('content-swap');
+      void infoCard.offsetWidth;
+      infoCard.classList.add('content-swap');
+
+      if (type === 'chakravyuha') {
+        nameEl.innerText = "Chakravyuha (Wheel)";
+        titleEl.innerText = "Chakravyuha (Rotating Concentric Wheel)";
+        descEl.innerText = "A multi-tiered, spinning circular formation designed to swallow advancing forces into inner concentric rings while constantly rotating archers and spear units.";
+        addSimLog("Switched formation to Chakravyuha (Wheel Array).");
+      } else if (type === 'garudavyuha') {
+        nameEl.innerText = "Garudavyuha (Eagle)";
+        titleEl.innerText = "Garudavyuha (Eagle Formation)";
+        descEl.innerText = "An aggressive wedge array featuring a strong beak (elephants) at the center and expansive wings (cavalry) designed to sweep and encircle enemy flanks.";
+        addSimLog("Switched formation to Garudavyuha (Eagle Array).");
+      } else if (type === 'padmavyuha') {
+        nameEl.innerText = "Padmavyuha (Lotus)";
+        titleEl.innerText = "Padmavyuha (Lotus Defense)";
+        descEl.innerText = "A blossom-like defensive array that expands outwards to repel attacks from all directions while shielding high commanders in the central seedpod.";
+        addSimLog("Switched formation to Padmavyuha (Lotus Array).");
+      }
+
+      renderVyuhaFrame();
+    }
+
+    function toggleVyuhaSim() {
+      vyuhaSimRunning = !vyuhaSimRunning;
+      const textEl = document.getElementById('sim-play-text');
+      const iconEl = document.getElementById('sim-play-icon');
+
+      if (vyuhaSimRunning) {
+        textEl.innerText = "Pause Simulation";
+        iconEl.className = "fa-solid fa-pause";
+        document.getElementById('sim-play-btn').classList.add('sim-running');
+        playTone(700, 'sine', 0.1, 0.05);
+        addSimLog("Simulation playing: Formations dynamically shifting.");
+        animateVyuha();
+      } else {
+        textEl.innerText = "Play Simulation";
+        iconEl.className = "fa-solid fa-play";
+        document.getElementById('sim-play-btn').classList.remove('sim-running');
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        addSimLog("Simulation paused.");
+      }
+    }
+
+    function resetVyuhaSim() {
+      vyuhaSimRunning = false;
+      simAngle = 0;
+      document.getElementById('sim-play-text').innerText = "Play Simulation";
+      document.getElementById('sim-play-icon').className = "fa-solid fa-play";
+      document.getElementById('sim-play-btn').classList.remove('sim-running');
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      addSimLog("Simulation reset to initial positions.");
+      renderVyuhaFrame();
+    }
+
+    function addSimLog(msg) {
+      const log = document.getElementById('sim-log');
+      if (!log) return;
+      const time = new Date().toLocaleTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.innerText = `[${time}] ${msg}`;
+      log.prepend(div);
+    }
+
+    function animateVyuha() {
+      if (!vyuhaSimRunning) return;
+      simAngle += 0.02;
+      renderVyuhaFrame();
+      animFrameId = requestAnimationFrame(animateVyuha);
+    }
+
+    function renderVyuhaFrame() {
+      if (!ctx || !canvas) return;
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid background
+      ctx.strokeStyle = "rgba(42, 52, 71, 0.4)";
+      ctx.lineWidth = 1;
+      const step = 30;
+      for (let x = 0; x < w; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += step) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      if (currentVyuha === 'chakravyuha') {
+        // Draw Concentric Spinning Rings
+        const rings = [30, 65, 105, 140];
+        rings.forEach((r, idx) => {
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.strokeStyle = idx % 2 === 0 ? "rgba(212, 175, 55, 0.4)" : "rgba(185, 28, 28, 0.4)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Render Troops along ring
+          const count = (idx + 1) * 8;
+          const dir = idx % 2 === 0 ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const angle = (i * (Math.PI * 2 / count)) + (simAngle * dir);
+            const px = cx + Math.cos(angle) * r;
+            const py = cy + Math.sin(angle) * r;
+
+            ctx.beginPath();
+            ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = idx === 0 ? "#d4af37" : (idx % 2 === 0 ? "#e2e8f0" : "#f87171");
+            ctx.fill();
+          }
+        });
+
+        // Center Commander
+        ctx.beginPath();
+        ctx.arc(cx, cy, 7, 0, Math.PI * 2);
+        ctx.fillStyle = "#d4af37";
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
+
+      } else if (currentVyuha === 'garudavyuha') {
+        // Eagle Formation (Head/Beak + Wings + Tail)
+        const offset = Math.sin(simAngle * 2) * 10;
+        
+        // Beak / Head (Elephants)
+        ctx.beginPath();
+        ctx.arc(cx, cy - 80 + offset, 8, 0, Math.PI * 2);
+        ctx.fillStyle = "#d4af37";
+        ctx.fill();
+
+        // Left Wing (Cavalry)
+        for (let i = 0; i < 8; i++) {
+          const wx = cx - 30 - (i * 18);
+          const wy = cy - 40 + (i * 12) + (offset * 0.5);
+          ctx.beginPath(); ctx.arc(wx, wy, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#4ade80"; ctx.fill();
+        }
+
+        // Right Wing (Cavalry)
+        for (let i = 0; i < 8; i++) {
+          const wx = cx + 30 + (i * 18);
+          const wy = cy - 40 + (i * 12) + (offset * 0.5);
+          ctx.beginPath(); ctx.arc(wx, wy, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#4ade80"; ctx.fill();
+        }
+
+        // Central Body (Infantry)
+        for (let r = 0; r < 4; r++) {
+          for (let c = -2; c <= 2; c++) {
+            ctx.beginPath();
+            ctx.arc(cx + (c * 15), cy - 30 + (r * 20), 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#e2e8f0"; ctx.fill();
+          }
+        }
+
+      } else if (currentVyuha === 'padmavyuha') {
+        // Lotus Petals expanding
+        const petals = 8;
+        const radius = 90 + Math.sin(simAngle * 3) * 8;
+
+        for (let i = 0; i < petals; i++) {
+          const angle = i * (Math.PI * 2 / petals);
+          const px = cx + Math.cos(angle) * radius;
+          const py = cy + Math.sin(angle) * radius;
+
+          // Petal Arc
+          ctx.beginPath();
+          ctx.arc(px, py, 25, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(234, 179, 8, 0.6)";
+          ctx.stroke();
+
+          // Petal Troops
+          ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#fde047"; ctx.fill();
+        }
+
+        // Core Shield
+        ctx.beginPath();
+        ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+        ctx.fillStyle = "#d4af37"; ctx.fill();
+      }
+    }
+
+    /* ==========================================================================
+       7. LAYER 3: CAMPAIGN TIMELINE MAP
+       ========================================================================== */
+    const campaignData = {
+      1: {
+        year: "322 BCE: Nanda Campaign",
+        title: "Phase 1: The Nanda Campaign (322 BCE)",
+        tag: "Outside-In Strategy",
+        desc: "Chandragupta & Chanakya executed Kautilya's 'outside-in' doctrine—securing peripheral alliances in the Northwest first to cut off Magadha's revenue before laying siege to Pataliputra.",
+        stat1: "Infiltration & Frontier Alliances",
+        stat2: "Overthrow of Dhana Nanda",
+        quote: "\"Just as a child burns its finger by eating from the center of a hot cake, a strategist must secure the borders before seizing the heart.\"",
+        src: "— Buddhist & Jain Historical Commentaries",
+        p1Opacity: 0.8, p2Opacity: 0, p3Opacity: 0
+      },
+      2: {
+        year: "305 BCE: Seleucid Standoff",
+        title: "Phase 2: Seleucid Standoff (305 BCE)",
+        tag: "Elephant Diplomacy",
+        desc: "Chandragupta confronted Seleucus Nicator along the Indus. Instead of total war, a peace treaty ceded Gedrosia/Arachosia to the Mauryas in exchange for 500 Mauryan War Elephants.",
+        stat1: "Northwest Border Treaties",
+        stat2: "500 Elephants Transferred",
+        quote: "\"An alliance established through mutual strength and gift of war elephants secures lasting frontier peace.\"",
+        src: "— Strabo & Greek Historical Accounts",
+        p1Opacity: 0.4, p2Opacity: 0.8, p3Opacity: 0
+      },
+      3: {
+        year: "261 BCE: Kalinga & Ashoka",
+        title: "Phase 3: The Kalinga War & Shift (261 BCE)",
+        tag: "Dhamma Transformation",
+        desc: "Emperor Ashoka conquered Kalinga in a devastating campaign. The immense loss of life triggered Ashoka's conversion to Buddhism and shift from military conquest (Digvijaya) to moral diplomacy (Dhammavijaya).",
+        stat1: "Subcontinental Unification",
+        stat2: "Edicts & Moral Governance",
+        quote: "\"All men are my children... True conquest is the conquest of hearts through Dhamma, not by force of arms.\"",
+        src: "— Ashoka Major Rock Edict XIII",
+        p1Opacity: 0.2, p2Opacity: 0.3, p3Opacity: 0.85
+      }
+    };
+
+    function updateCampaignMap() {
+      playTone(550, 'sine', 0.08, 0.03);
+      const val = document.getElementById('campaign-slider').value;
+      const data = campaignData[val];
+      if (!data) return;
+
+      document.getElementById('timeline-year-badge').innerText = data.year;
+      document.getElementById('campaign-title').innerText = data.title;
+      document.getElementById('campaign-tag').innerText = data.tag;
+      document.getElementById('campaign-desc').innerText = data.desc;
+      document.getElementById('campaign-stat1').innerText = data.stat1;
+      document.getElementById('campaign-stat2').innerText = data.stat2;
+      document.getElementById('campaign-quote').innerText = data.quote;
+      document.getElementById('campaign-quote-src').innerText = data.src;
+
+      // Update SVG Map Overlays
+      document.getElementById('map-territory-p1').setAttribute('opacity', data.p1Opacity);
+      document.getElementById('map-territory-p2').setAttribute('opacity', data.p2Opacity);
+      document.getElementById('map-territory-p3').setAttribute('opacity', data.p3Opacity);
+    }
+
+    function setCampaignStep(step) {
+      document.getElementById('campaign-slider').value = step;
+      updateCampaignMap();
+    }
+
+    /* ==========================================================================
+       8. MODALS & INITIALIZATION
+       ========================================================================== */
+    function openGlossaryModal() {
+      playTone(650, 'triangle', 0.1, 0.04);
+      document.getElementById('glossary-modal').classList.remove('modal-hidden');
+    }
+
+    function closeGlossaryModal() {
+      playTone(400, 'sine', 0.1, 0.03);
+      document.getElementById('glossary-modal').classList.add('modal-hidden');
+    }
+
+    window.onload = function() {
+      // Initialize decision engine and ciphers
+      updateDecisionEngine();
+      setCipherPreset("Attack Pataliputra at midnight");
+      
+      // Initialize Canvas Vyuha Simulator
+      initVyuhaCanvas();
+      window.addEventListener('resize', initVyuhaCanvas);
+
+      // Initialize Campaign Map
+      updateCampaignMap();
+    };
+  </script>
+
+</body>
+</html>
